@@ -75,80 +75,9 @@ Every write operation (CREATE, UPDATE, DELETE) writes to both:
 
 ### Prerequisites
 - Python 3.8+
-- MongoDB 4.0+ running on localhost:27017
-- (Optional) Cassandra running on localhost:9042
+- MongoDB 4.0+
+- (Optional) Cassandra 
 
-### Start MongoDB
-`ash
-# Using Docker
-docker run -d -p 27017:27017 mongo:latest
-
-# Or local installation
-mongod --dbpath /path/to/data
-`
-
-### Start Cassandra (Optional)
-`ash
-# Using Docker
-docker run -d -p 9042:9042 cassandra:latest
-
-# Or local installation
-cassandra -f
-`
-
-### Run Application
-`ash
-python app.py
-`
-
-Visit: http://localhost:5000
-
-## Testing
-
-### Test Suite
-Run the comprehensive test suite:
-`ash
-python test_suite.py
-`
-
-Tests cover:
-- Creating posts with different authors
-- Sorting posts by date
-- Sorting posts alphabetically
-- Author post count aggregation
-- Comment creation and retrieval
-- Double-write verification
-- Database statistics
-
-### Manual Testing
-
-**1. Create Sample Data**
-`ash
-# Via web form: http://localhost:5000/create
-# Or via API:
-curl -X POST http://localhost:5000/create \\
-  -d "title=First Post&author=John&content=Hello World"
-`
-
-**2. Verify Sorting**
-`ash
-# Test date sorting
-curl http://localhost:5000/?sort=date
-
-# Test alphabetical sorting
-curl http://localhost:5000/?sort=alphabetical
-`
-
-**3. Check Author Counts**
-`ash
-curl http://localhost:5000/api/author-stats
-`
-
-**4. Verify Double Writes**
-`ash
-# Check if data exists in both databases
-curl http://localhost:5000/api/stats
-`
 
 ## Migration Strategy
 
