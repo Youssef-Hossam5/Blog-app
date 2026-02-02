@@ -49,36 +49,7 @@ Key routes with database operations:
 
 ### 3. **Database Layer** (MongoDB + Cassandra)
 
-#### Database-Level Query Functions
 
-**Sorting (Database-Level - NOT Python):**
-\\\python
-#  Good: Database-level sorting
-get_posts_sorted_by_date_mongodb()      # Uses .sort('created_at', -1)
-get_posts_sorted_by_title_mongodb()     # Uses .sort('title', 1)
-
-#  Bad: Python-level sorting (REMOVED)
-# posts.sort(key=lambda x: x['created_at'])  # Loads entire table!
-\\\
-
-**Aggregation (Database-Level - NOT Python):**
-\\\python
-#  Good: Database-level aggregation
-get_author_post_counts_mongodb()  # Uses MongoDB  pipeline
-
-#  Bad: Python-level counting (REMOVED)
-# author_counts = {}
-# for post in posts:
-#     author_counts[author] = author_counts.get(author, 0) + 1
-\\\
-
----
-
-## Database Schema Design
-
-### MongoDB Schema with Indexes
-
-`
 Collection: posts
  _id (ObjectId)              [PRIMARY]
  title (String)              [INDEX - alphabetical sorting]
@@ -120,50 +91,6 @@ Table: comments
  created_at (TIMESTAMP)
 `
 
----
-
-## Query Optimization
-
-### 1. Sorting Queries (Database-Level)
-
-**Date Sorting (Newest First):**
-\\\python
-# MongoDB query - returns pre-sorted results
-posts_collection.find().sort('created_at', -1)
-
-# Equivalent Cassandra query (read migration):
-# SELECT * FROM posts ORDER BY created_at DESC
-\\\
-
-**Benefits:**
--  Handles 1M+ posts efficiently
--  Uses database indexes
--  Minimal memory usage
--  Scales horizontally
-
-### 2. Aggregation Queries (Database-Level)
-
-**Post Count Per Author:**
-\\\python
-# MongoDB aggregation pipeline - database-level operation
-posts_collection.aggregate([
-    {
-        '\': {
-            '_id': '\',
-            'count': {'\': 1}
-        }
-    }
-])
-
-# Equivalent Cassandra query (read migration):
-# SELECT author, COUNT(*) as count FROM posts GROUP BY author
-\\\
-
-**Why Aggregation Pipeline:**
--  Parallel processing in MongoDB
--  Efficient filtering and grouping
--  Scalable to terabytes of data
--  No data transfer to Python
 
 ---
 
