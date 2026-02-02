@@ -329,62 +329,6 @@ if CASSANDRA_AVAILABLE:
 
 4. **Connection Pooling**: Cassandra driver handles connection pooling
 
-## Troubleshooting
-
-### MongoDB Connection Issues
-`ash
-# Check if MongoDB is running
-mongosh localhost:27017
-
-# If not, start MongoDB
-docker run -d -p 27017:27017 mongo:latest
-`
-
-### Cassandra Connection Issues
-`ash
-# Check if Cassandra is running
-cassandra-cli -host 127.0.0.1
-
-# App will continue working with only MongoDB if Cassandra is unavailable
-`
-
-### Data Not Appearing
-`ash
-# Check MongoDB has data
-mongosh
-> use blog_db
-> db.posts.find()
-
-# Check database statistics
-curl http://localhost:5000/api/stats
-`
-
-## Future Enhancements
-
-1. User authentication and authorization
-2. Post search functionality
-3. Post categories/tags
-4. Comment moderation
-5. Analytics dashboard
-6. Full-text search with Elasticsearch
-7. Caching layer (Redis)
-
-## Requirements Checklist
-
--  MongoDB Blog Application
--  Different authors/commenters support
--  Main feed with posts
--  Sorting by date (DATABASE-LEVEL)
--  Sorting alphabetically by content (DATABASE-LEVEL)
--  Author post count on each post (DATABASE-LEVEL aggregation)
--  Double-write migration strategy
--  Write to both MongoDB and Cassandra
--  Migration script for bulk data copy
--  Read migration strategy
--  Cleanup script to remove MongoDB
--  Comprehensive documentation
--  Dependencies with versions
--  Test suite
 
 ## License
 
